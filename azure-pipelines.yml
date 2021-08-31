@@ -1,0 +1,22 @@
+# Ruby
+# Package your Ruby project.
+# Add steps that install rails, analyze code, save build artifacts, deploy, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/languages/ruby
+
+trigger:
+- feature/add_azure_pipelines
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+steps:
+- task: Bash@3
+  displayName: Install_skencli
+  inputs:
+    targetType: 'inline'
+    script: pip install wheel && pip install --upgrade skencli
+- task: Bash@3
+  displayName: Run_skencli
+  inputs:
+    targetType: 'inline'
+    script: ~/.local/bin/skencli
