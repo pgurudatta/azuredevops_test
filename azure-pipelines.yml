@@ -10,4 +10,6 @@ steps:
     inputs:
       targetType: 'inline'
       script: |
-        docker run --pull always --rm --env-file /tmp/env --mount type=bind,source="$(pwd)",target=/scan registry.fortidevsec.forticloud.com/fdevsec_sast:latest
+        docker ps
+        docker images
+        #docker run --pull always --rm --env-file /tmp/env --mount type=bind,source="$(pwd)",target=/scan registry.fortidevsec.forticloud.com/fdevsec_sast:latest
