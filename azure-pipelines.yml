@@ -10,6 +10,7 @@ steps:
     inputs:
       targetType: 'inline'
       script: |
+        env
         env | grep -E "AZURE_HTTP_USER_AGENT|BUILD_BUILDID" > /tmp/env
         docker pull registry.fortidevsec.forticloud.com/fdevsec_sast:latest
         docker run --rm --env-file /tmp/env --mount type=bind,source="$(pwd)",target=/scan registry.fortidevsec.forticloud.com/fdevsec_sast:latest
