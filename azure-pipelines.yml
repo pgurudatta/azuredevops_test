@@ -14,5 +14,5 @@ steps:
         #docker pull registry.fortidevsec.forticloud.com/fdevsec_sast:latest
         #docker images
         #docker run hello-world
-        docker run --rm -v "$(pwd)":/scan registry.fortidevsec.forticloud.com/fdevsec_sast:latest sh
-        ls -ltr
+        docker run --rm -v ${PWD}:/scan registry.fortidevsec.forticloud.com/fdevsec_sast:latest
+        #ls -ltr
