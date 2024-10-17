@@ -2,14 +2,14 @@ trigger:
   - main
 
 pool:
-  vmImage: 'ubuntu-latest'
+  vmImage: 'windows-latest'
 
 steps:
-  - task: Bash@3
+  - task: PowerShell@2
     displayName: Install_Run_SAST
     inputs:
       targetType: 'inline'
       script: |
-        env | grep -E "AZURE_HTTP_USER_AGENT|BUILD_BUILDID" > /tmp/env
+        Get-ChildItem Env:AZURE_HTTP_USER_AGENT,Env:BUILD_BUILDID | Out-File -FilePath C:\temp\env.txt
         docker pull registry.fortidevsec.forticloud.com/fdevsec_sast:latest
-        docker run --rm --env-file /tmp/env --mount type=bind,source="$(pwd)",target=/scan registry.fortidevsec.forticloud.com/fdevsec_sast:latest
+        docker run --rm --env-file C:\temp\env.txt --mount type=bind,source="$(Get-Location)",target=/scan registry.fortidevsec.forticloud.com/fdevsec_sast:latest
