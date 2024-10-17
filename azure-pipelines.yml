@@ -2,21 +2,14 @@ trigger:
   - main
 
 pool:
-  vmImage: 'windows-latest'
+  vmImage: 'ubuntu-latest'
 
 steps:
-  - task: PowerShell@2
+  - task: Bash@3
     displayName: Install_Run_SAST
     inputs:
       targetType: 'inline'
       script: |
-        # Create a temporary file for environment variables
-        #$envFile = "C:\temp\env.txt"
-        #New-Item -ItemType Directory -Path C:\temp -Force
-        #Get-ChildItem Env:AZURE_HTTP_USER_AGENT,Env:BUILD_BUILDID | ForEach-Object { "$($_.Key)=$($_.Value)" } | Out-File -FilePath $envFile
-
-        # Pull the Docker image
+        env | grep -E "AZURE_HTTP_USER_AGENT|BUILD_BUILDID" > /tmp/env
         docker pull registry.fortidevsec.forticloud.com/fdevsec_sast:latest
-
-        # Run the Docker container
-        docker run --rm --mount type=bind,source="$(Get-Location)",target=/scan registry.fortidevsec.forticloud.com/fdevsec_sast:latest
+        docker run --rm --env-file /tmp/env --mount type=bind,source="$(pwd)",target=/scan registry.fortidevsec.forticloud.com/fdevsec_sast:latest
